@@ -13,7 +13,7 @@ import { MetaData } from '../components/common/meta'
 *
 */
 const Post = ({ data, location }) => {
-    const post = data.ghostPost
+    const post = data.markdownRemark
 
     return (
         <>
@@ -23,17 +23,17 @@ const Post = ({ data, location }) => {
                 type="article"
             />
             <Helmet>
-                <style type="text/css">{`${post.codeinjection_styles}`}</style>
+                <style type="text/css"/>
             </Helmet>
             <Layout>
                 <div className="container">
                     <article className="content">
-                        { post.feature_image ?
+                        { post.frontmatter.feature_image.publicURL ?
                             <figure className="post-feature-image">
-                                <img src={ post.feature_image } alt={ post.title } />
+                                <img src={ post.frontmatter.feature_image.publicURL } alt={ post.frontmatter.title } />
                             </figure> : null }
                         <section className="post-full-content">
-                            <h1 className="content-title">{post.title}</h1>
+                            <h1 className="content-title">{post.frontmatter.title}</h1>
 
                             {/* The main post content */ }
                             <section
@@ -50,11 +50,15 @@ const Post = ({ data, location }) => {
 
 Post.propTypes = {
     data: PropTypes.shape({
-        ghostPost: PropTypes.shape({
-            codeinjection_styles: PropTypes.object,
-            title: PropTypes.string.isRequired,
+        markdownRemark: PropTypes.shape({
+            frontmatter: PropTypes.shape({
+                date: PropTypes.string.isRequired,
+                title: PropTypes.string.isRequired,
+                feature_image: PropTypes.shape({
+                    publicURL: PropTypes.string.isRequired,
+                }).isRequired,
+            }).isRequired,
             html: PropTypes.string.isRequired,
-            feature_image: PropTypes.string,
         }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
@@ -63,9 +67,17 @@ Post.propTypes = {
 export default Post
 
 export const postQuery = graphql`
-    query($slug: String!) {
-        ghostPost(slug: { eq: $slug }) {
-            ...GhostPostFields
+  query($slug: String!) {
+    markdownRemark(frontmatter: { slug: { eq: $slug }}) {
+      frontmatter {
+        date
+        title
+        feature_image {
+          publicURL
         }
+        slug
+      }
+      html
     }
+  }
 `

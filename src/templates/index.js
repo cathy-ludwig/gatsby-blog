@@ -14,7 +14,7 @@ import { MetaData } from '../components/common/meta'
 *
 */
 const Index = ({ data, location, pageContext }) => {
-    const posts = data.allGhostPost.edges
+    const posts = data.allMarkdownRemark.edges
 
     return (
         <>
@@ -36,7 +36,7 @@ const Index = ({ data, location, pageContext }) => {
 
 Index.propTypes = {
     data: PropTypes.shape({
-        allGhostPost: PropTypes.object.isRequired,
+        allMarkdownRemark: PropTypes.object.isRequired,
     }).isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired,
@@ -49,17 +49,22 @@ export default Index
 // This page query loads all posts sorted descending by published date
 // The `limit` and `skip` values are used for pagination
 export const pageQuery = graphql`
-  query GhostPostQuery($limit: Int!, $skip: Int!) {
-    allGhostPost(
-        sort: { order: DESC, fields: [published_at] },
-        limit: $limit,
-        skip: $skip
-    ) {
-      edges {
-        node {
-          ...GhostPostFields
+query GhostPostQuery {
+  allMarkdownRemark {
+    edges {
+      node {
+        excerpt
+        frontmatter {
+          color
+          date
+          feature_image {
+            publicURL
+          }
+          slug
+          title
         }
       }
     }
   }
+}
 `
