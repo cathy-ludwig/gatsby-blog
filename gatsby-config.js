@@ -32,7 +32,9 @@ if (process.env.NODE_ENV === `production` && config.siteUrl === `http://localhos
 * Further info 👉🏼 https://www.gatsbyjs.org/docs/gatsby-config/
 *
 */
+
 module.exports = {
+    pathPrefix: `/gatsby-blog`,
     siteMetadata: {
         siteUrl: process.env.SITEURL || config.siteUrl,
     },
