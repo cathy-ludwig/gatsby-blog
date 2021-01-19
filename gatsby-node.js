@@ -1,6 +1,4 @@
 const path = require(`path`)
-const { postsPerPage } = require(`./src/utils/siteConfig`)
-const { paginate } = require(`gatsby-awesome-pagination`)
 
 /**
  * Here is the place where Gatsby creates the URLs for all the
@@ -20,14 +18,6 @@ exports.createPages = async ({ graphql, actions }) => {
                     }
                 }
             }
-            allGhostPage(sort: { order: ASC, fields: published_at }) {
-                edges {
-                    node {
-                        slug
-                        url
-                    }
-                }
-            }
         }
     `)
 
@@ -37,29 +27,20 @@ exports.createPages = async ({ graphql, actions }) => {
     }
 
     // Extract query results
-    const pages = result.data.allGhostPage.edges
     const posts = result.data.allMarkdownRemark.edges
 
     // Load templates
     const indexTemplate = path.resolve(`./src/templates/index.js`)
-    const pageTemplate = path.resolve(`./src/templates/page.js`)
     const postTemplate = path.resolve(`./src/templates/post.js`)
+    const blogTemplate = path.resolve(`./src/templates/blog.js`)
 
-    // Create pages
-    pages.forEach(({ node }) => {
-        // This part here defines, that our pages will use
-        // a `/:slug/` permalink.
-        node.url = `/${node.slug}/`
-
-        createPage({
-            path: node.url,
-            component: pageTemplate,
-            context: {
-                // Data passed to context is available
-                // in page queries as GraphQL variables.
-                slug: node.slug,
-            },
-        })
+    createPage({
+        path: `/blog/`,
+        component: blogTemplate,
+    })
+    createPage({
+        path: `/`,
+        component: indexTemplate,
     })
 
     // Create post pages
@@ -77,20 +58,5 @@ exports.createPages = async ({ graphql, actions }) => {
                 slug: node.frontmatter.slug,
             },
         })
-    })
-
-    // Create pagination
-    paginate({
-        createPage,
-        items: posts,
-        itemsPerPage: postsPerPage,
-        component: indexTemplate,
-        pathPrefix: ({ pageNumber }) => {
-            if (pageNumber === 0) {
-                return `/`
-            } else {
-                return `/page`
-            }
-        },
     })
 }

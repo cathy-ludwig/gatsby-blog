@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { Link, StaticQuery, graphql } from 'gatsby'
-import Img from 'gatsby-image'
 
 import { Navigation } from '.'
 
 // Styles
 import '../../styles/app.css'
+
+// Settings
 import settings from '../../utils/settings'
 
 /**
@@ -20,7 +21,8 @@ import settings from '../../utils/settings'
 */
 const DefaultLayout = ({ children, bodyClass, isHome }) => {
     const site = settings.data.allGhostSettings.edges[0].node
-    const data = settings.data
+    const twitterUrl = site.twitter ? `https://twitter.com/${site.twitter.replace(/^@/, ``)}` : null
+    const githubUrl = site.github ? `https://github.com/${site.github.replace(/^\//, ``)}` : null
 
     return (
         <>
@@ -38,12 +40,11 @@ const DefaultLayout = ({ children, bodyClass, isHome }) => {
                         <div className="container">
                             <div className="site-mast">
                                 <div className="site-mast-left">
-                                    <Link to="/">
-                                        {site.logo ?
-                                            <img className="site-logo" src={site.logo} alt={site.title} />
-                                            : <Img fixed={data.file.childImageSharp.fixed} alt={site.title} />
-                                        }
-                                    </Link>
+                                    <Link to="/"> </Link>
+                                </div>
+                                <div className="site-mast-right">
+                                    { site.twitter && <a href={ twitterUrl } className="site-nav-item" target="_blank" rel="noopener noreferrer"><img className="site-nav-icon" src="/images/icons/twitter.svg" alt="Twitter" /></a>}
+                                    { site.github && <a href={ githubUrl } className="site-nav-item" target="_blank" rel="noopener noreferrer"><img className="site-nav-icon" src="/images/icons/github.svg" alt="Github" /></a>}
                                 </div>
                             </div>
                             { isHome ?
@@ -56,9 +57,6 @@ const DefaultLayout = ({ children, bodyClass, isHome }) => {
                                 <div className="site-nav-left">
                                     {/* The navigation items as setup in Ghost */}
                                     <Navigation data={site.navigation} navClass="site-nav-item" />
-                                </div>
-                                <div className="site-nav-right">
-                                    <Link className="site-nav-button" to="/about">About</Link>
                                 </div>
                             </nav>
                         </div>
