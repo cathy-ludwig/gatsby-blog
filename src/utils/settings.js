@@ -23,6 +23,10 @@ module.exports = {
                             label: `Blog`,
                             url: `/blog/`,
                         },
+                        {
+                            label: `Faves`,
+                            url: `/inspiration/`,
+                        },
                     ],
                     secondary_navigation: [],
                     timezone: `Etc/UTC`,

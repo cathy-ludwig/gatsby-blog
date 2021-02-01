@@ -19,7 +19,7 @@ const Blog = ({ data, location }) => {
     return (
         <>
             <MetaData location={location} />
-            <Layout isHome={true}>
+            <Layout>
                 <div className="container">
                     <h1 className="content-title">All Blog Posts</h1>
                     <section className="post-feed">
