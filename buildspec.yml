@@ -13,7 +13,8 @@ phases:
       - "yarn run build"
   post_build:
     commands:
-      - aws s3 sync ./public/ s3://cathyiscool.com --delete
+      - aws s3 sync ./public/ $S3_BUCKET --delete
+      - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
 cache:
   paths:
     - ".cache/*"
