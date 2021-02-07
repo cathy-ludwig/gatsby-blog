@@ -31,7 +31,7 @@ const Index = ({ data, location }) => {
                             cutest nieces and nephews, wife to a superstar basketball coach, dog-momma to a
                             chocolate lab named Ziggy, vegan, and most recently community activist. My biggest goal for
                             this site is to grow my technical and writing skills. If it helps others along the way, that
-                            is just fantastic. My blog will focus on a few things: tutorial style technical posts, my
+                            would be fantastic. My blog will focus on a few things: tutorial style technical posts, my
                             thoughts on software team dynamics, running a software company, and promoting women in STEM.
                             All of the projects that have helped me grow my technical skills can be found in the
                             Projects section.<br/>
