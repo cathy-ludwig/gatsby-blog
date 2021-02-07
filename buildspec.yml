@@ -1,0 +1,26 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - "touch .npmignore"
+      - "npm install -g gatsby"
+      - "npm install -g yarn"
+  pre_build:
+    commands:
+      - "yarn install"
+  build:
+    commands:
+      - "yarn run build"
+  post_build:
+    commands:
+      - 'aws s3 sync "/" S3_BUCKET --delete --acl "public-read" && aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*"'
+artifacts:
+  base-directory: "/"
+  files:
+    - "**/*"
+  discard-paths: yes
+cache:
+  paths:
+    - ".cache/*"
+    - "node_modules/*"
+    - "public/*"
