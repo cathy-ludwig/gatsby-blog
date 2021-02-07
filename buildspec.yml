@@ -13,7 +13,7 @@ phases:
       - "yarn run build"
   post_build:
     commands:
-      - 'aws s3 sync "/" S3_BUCKET --delete --acl "public-read" && aws cloudfront create-invalidation --distribution-id DISTRIBUTION_ID --paths "/*"'
+      - 'aws s3 sync "/" $S3_BUCKET --delete --acl "public-read" && aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"'
 artifacts:
   base-directory: "/"
   files:
