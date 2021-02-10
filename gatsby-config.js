@@ -50,6 +50,18 @@ module.exports = {
             },
         },
         {
+            resolve: `gatsby-plugin-google-gtag`,
+            options: {
+                trackingIds: [
+                    process.env.GA_TRACKING_ID,
+                ],
+                pluginConfig: {
+                    head: true,
+                    respectDNT: true,
+                },
+            },
+        },
+        {
             resolve: `gatsby-source-filesystem`,
             options: {
                 path: path.join(__dirname, `src`, `pages`),
