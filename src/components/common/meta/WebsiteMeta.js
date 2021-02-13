@@ -2,7 +2,6 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { StaticQuery, graphql } from 'gatsby'
 import url from 'url'
 
 import ImageMeta from './ImageMeta'
@@ -11,15 +10,14 @@ import config from '../../../utils/siteConfig'
 import settings from '../../../utils/settings'
 
 const WebsiteMeta = ({ data, canonical, title, description, image, type }) => {
-    const site = settings.data.allGhostSettings.edges[0].node
 
-    const publisherLogo = url.resolve(config.siteUrl, (site.logo || config.siteIcon))
-    let shareImage = image || data.feature_image || _.get(site, `cover_image`, null)
+    const publisherLogo = url.resolve(config.siteUrl, (settings.logo || config.siteIcon))
+    let shareImage = image || data.feature_image || _.get(settings, `cover_image`, null)
 
     shareImage = shareImage ? url.resolve(config.siteUrl, shareImage) : null
 
-    description = description || data.meta_description || data.description || config.siteDescriptionMeta || site.description
-    title = `${title || data.meta_title || data.name || data.title} - ${site.description}`
+    description = description || data.meta_description || data.description || config.siteDescriptionMeta || settings.description
+    title = `${title || data.meta_title || data.name || data.title} - ${settings.description}`
 
     const jsonLd = {
         "@context": `https://schema.org/`,
@@ -34,7 +32,7 @@ const WebsiteMeta = ({ data, canonical, title, description, image, type }) => {
             } : undefined,
         publisher: {
             "@type": `Organization`,
-            name: site.title,
+            name: settings.title,
             logo: {
                 "@type": `ImageObject`,
                 url: publisherLogo,
@@ -55,7 +53,7 @@ const WebsiteMeta = ({ data, canonical, title, description, image, type }) => {
                 <title>{title}</title>
                 <meta name="description" content={description} />
                 <link rel="canonical" href={canonical} />
-                <meta property="og:site_name" content={site.title} />
+                <meta property="og:site_name" content={settings.title} />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
@@ -63,8 +61,8 @@ const WebsiteMeta = ({ data, canonical, title, description, image, type }) => {
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={description} />
                 <meta name="twitter:url" content={canonical} />
-                {site.twitter && <meta name="twitter:site" content={`https://twitter.com/${site.twitter.replace(/^@/, ``)}/`} />}
-                {site.twitter && <meta name="twitter:creator" content={site.twitter} />}
+                {settings.twitter && <meta name="twitter:site" content={`https://twitter.com/${settings.twitter.replace(/^@/, ``)}/`} />}
+                {settings.twitter && <meta name="twitter:creator" content={settings.twitter} />}
                 <script type="application/ld+json">{JSON.stringify(jsonLd, undefined, 4)}</script>
             </Helmet>
             <ImageMeta image={shareImage} />
@@ -90,21 +88,4 @@ WebsiteMeta.propTypes = {
     type: PropTypes.oneOf([`WebSite`, `Series`]).isRequired,
 }
 
-const WebsiteMetaQuery = props => (
-    <StaticQuery
-        query={graphql`
-            query GhostSettingsWebsiteMeta {
-                allGhostSettings {
-                    edges {
-                        node {
-                            ...GhostSettingsFields
-                        }
-                    }
-                }
-            }
-        `}
-        render={data => <WebsiteMeta settings={data} {...props} />}
-    />
-)
-
-export default WebsiteMetaQuery
+export default WebsiteMeta

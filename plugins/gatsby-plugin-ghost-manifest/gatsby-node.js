@@ -48,7 +48,7 @@ exports.onPostBuild = /*#__PURE__*/function () {
           case 4:
             _yield$graphql = _context.sent;
             data = _yield$graphql.data;
-            siteTitle = data.allGhostSettings.edges[0].node.title || "No Title";
+            siteTitle = "No Title";
             manifest = (0, _extends2.default)({}, manifest, {
               name: siteTitle
             }); // Delete options we won't pass to the manifest.webmanifest.
