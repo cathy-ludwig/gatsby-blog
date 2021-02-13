@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
-import { readingTime as readingTimeHelper } from '@tryghost/helpers'
 
 const PostCard = ({ post }) => {
     const url = `/${post.frontmatter.slug}/`
-    const readingTime = readingTimeHelper(post)
+    const readingTime = `${post.timeToRead} ${post.timeToRead > 1 ? `minutes` : `minute`}`
 
     return (
         <Link to={url} className="post-card">
@@ -38,6 +37,7 @@ PostCard.propTypes = {
             }).isRequired,
         }).isRequired,
         excerpt: PropTypes.string.isRequired,
+        timeToRead: PropTypes.string.isRequired,
     }).isRequired,
 }
 

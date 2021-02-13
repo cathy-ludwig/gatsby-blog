@@ -34,6 +34,7 @@ const Post = ({ data, location }) => {
                             </figure> : null }
                         <section className="post-full-content">
                             <h1 className="content-title">{post.frontmatter.title}</h1>
+                            <h2>Written on {post.frontmatter.date} - {post.timeToRead} minute read</h2>
 
                             {/* The main post content */ }
                             <section
@@ -59,6 +60,7 @@ Post.propTypes = {
                 }).isRequired,
             }).isRequired,
             html: PropTypes.string.isRequired,
+            timeToRead: PropTypes.string.isRequired,
         }).isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
@@ -70,7 +72,7 @@ export const postQuery = graphql`
   query($slug: String!) {
     markdownRemark(frontmatter: { slug: { eq: $slug }}) {
       frontmatter {
-        date
+        date(formatString: "MMMM DD, YYYY")
         title
         feature_image {
           publicURL
@@ -78,6 +80,7 @@ export const postQuery = graphql`
         slug
       }
       html
+      timeToRead
     }
   }
 `

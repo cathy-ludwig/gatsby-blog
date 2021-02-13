@@ -50,10 +50,11 @@ export default Blog
 // The `limit` and `skip` values are used for pagination
 export const pageQuery = graphql`
 query AllGhostPostQuery {
-  allMarkdownRemark {
+  allMarkdownRemark(sort: {order: DESC, fields: [frontmatter___date]}) {
     edges {
       node {
         excerpt
+        timeToRead
         frontmatter {
           color
           date

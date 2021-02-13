@@ -42,7 +42,7 @@ const Index = ({ data, location }) => {
                 <div className="container">
                     <h3 className="content-title">Recent Blog Posts</h3>
                     <section className="post-feed">
-                        {posts.map(({ node }) => (
+                        {posts.slice(0, 3).map(({ node }) => (
                             // The tag below includes the markup for each post - components/common/PostCard.js
                             <PostCard key={node.id} post={node} />
                         ))}
@@ -84,10 +84,11 @@ export default Index
 // The `limit` and `skip` values are used for pagination
 export const pageQuery = graphql`
 query GhostPostQuery {
-  allMarkdownRemark {
+  allMarkdownRemark(sort: {order: DESC, fields: [frontmatter___date]}) {
     edges {
       node {
         excerpt
+        timeToRead
         frontmatter {
           color
           date
