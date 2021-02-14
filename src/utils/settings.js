@@ -1,7 +1,7 @@
 module.exports = {
     description: `An Adventure in Tech`,
     title: `Cathy Ludwig`,
-    cover_image: `./images/nasa-earth.jpeg`,
+    cover_image: `/images/nasa-earth.jpeg`,
     github: `cathy-ludwig`,
     icon: `favicon.png`,
     lang: `en`,
