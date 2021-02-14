@@ -13,7 +13,7 @@ phases:
       - "yarn run build"
   post_build:
     commands:
-      - aws s3 sync ./public/ $S3_BUCKET --delete
+      - aws s3 sync ./public/ $S3_BUCKET --delete --cache-control 'max-age=31536000'
       - aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*'
 cache:
   paths:
